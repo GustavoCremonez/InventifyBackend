@@ -1,5 +1,8 @@
+using InventifyBackend.Infra;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

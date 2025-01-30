@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventifyBackend.Api", "InvetifyBackend.Api\InventifyBackend.Api.csproj", "{24183313-6BDB-4A46-A060-F7CCE50B4284}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7C289AE-8168-4E22-9884-571877E62963} = {F7C289AE-8168-4E22-9884-571877E62963}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventifyBackend.Domain", "InvetifyBackend.Domain\InventifyBackend.Domain.csproj", "{4B23AB34-B28E-45EF-A3A6-3AE22B89943B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventifyBackend.Application", "InventifyBackend.Application\InventifyBackend.Application.csproj", "{6618F02E-0714-45B5-9A9C-B6CA567AD9AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B23AB34-B28E-45EF-A3A6-3AE22B89943B} = {4B23AB34-B28E-45EF-A3A6-3AE22B89943B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventifyBackend.Infra", "InventifyBackend.Infra\InventifyBackend.Infra.csproj", "{F7C289AE-8168-4E22-9884-571877E62963}"
 EndProject
