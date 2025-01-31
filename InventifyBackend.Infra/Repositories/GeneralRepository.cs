@@ -1,0 +1,34 @@
+﻿using InventifyBackend.Domain.Contracts;
+using InventifyBackend.Infra.Context;
+
+namespace InventifyBackend.Infra.Repositories
+{
+    public class GeneralRepository : IGeneralRepository
+    {
+        private readonly ApplicationDbContext _applicationDbContext;
+
+        public GeneralRepository(ApplicationDbContext applicationDbContext)
+        {
+            _applicationDbContext = applicationDbContext;
+        }
+
+        public async Task Add<T>(T entity) where T : class
+        {
+            await _applicationDbContext.AddAsync(entity);
+
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task Delete<T>(T entity) where T : class
+        {
+            _applicationDbContext.Remove(entity);
+
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _applicationDbContext.SaveChangesAsync();
+        }
+    }
+}

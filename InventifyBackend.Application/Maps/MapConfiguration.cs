@@ -1,6 +1,14 @@
-﻿namespace InventifyBackend.Application.Maps
+﻿using AutoMapper;
+using InventifyBackend.Application.Dtos;
+using InventifyBackend.Domain.Entity;
+
+namespace InventifyBackend.Application.Maps
 {
-    public sealed class MapConfiguration
+    public sealed class MapConfiguration : Profile
     {
+        public MapConfiguration()
+        {
+            CreateMap<User, UserDto>().ReverseMap();
+        }
     }
 }

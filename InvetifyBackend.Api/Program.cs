@@ -1,4 +1,6 @@
+using InventifyBackend.Application.Maps;
 using InventifyBackend.Infra;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

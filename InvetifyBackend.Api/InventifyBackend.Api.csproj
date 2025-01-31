@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InventifyBackend.Application\InventifyBackend.Application.csproj" />
     <ProjectReference Include="..\InventifyBackend.Infra\InventifyBackend.Infra.csproj" />
   </ItemGroup>
