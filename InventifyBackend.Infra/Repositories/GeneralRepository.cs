@@ -12,11 +12,11 @@ namespace InventifyBackend.Infra.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task Add<T>(T entity) where T : class
+        public async Task Add<T>(T entity, CancellationToken cancellationToken) where T : class
         {
-            await _applicationDbContext.AddAsync(entity);
+            await _applicationDbContext.AddAsync(entity, cancellationToken);
 
-            await _applicationDbContext.SaveChangesAsync();
+            await _applicationDbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task Delete<T>(T entity) where T : class
