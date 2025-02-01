@@ -9,6 +9,8 @@ namespace InventifyBackend.Application.Maps
         public MapConfiguration()
         {
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserCreateResource, User>();
+            CreateMap<UserCreateResource, UserDto>();
         }
     }
 }

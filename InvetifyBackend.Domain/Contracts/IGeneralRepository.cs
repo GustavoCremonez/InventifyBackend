@@ -2,7 +2,7 @@
 {
     public interface IGeneralRepository
     {
-        Task Add<T>(T entity) where T : class;
+        Task Add<T>(T entity, CancellationToken cancellationToken) where T : class;
 
         Task Delete<T>(T entity) where T : class;
 

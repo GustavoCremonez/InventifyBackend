@@ -4,7 +4,7 @@ namespace InventifyBackend.Application.Contracts
 {
     public interface IUserService
     {
-        Task<ResponseDto<Guid>> Add(UserDto userDto);
+        Task<ResponseDto<Guid>> Add(UserCreateResource userDto, CancellationToken cancellationToken);
 
         Task<ResponseDto<UserDto>> Get(Guid id);
 

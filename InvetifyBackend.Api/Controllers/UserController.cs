@@ -26,9 +26,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Add(UserDto userDto)
+        public async Task<ActionResult> Add(UserCreateResource user, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _userService.Add(userDto);
+            ResponseDto<Guid> response = await _userService.Add(user, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {

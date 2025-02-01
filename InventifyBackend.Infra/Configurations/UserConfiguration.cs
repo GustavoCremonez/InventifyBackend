@@ -14,6 +14,7 @@ namespace InventifyBackend.Infra.Configurations
             builder.Property(u => u.Name).HasMaxLength(255).IsRequired();
             builder.Property(u => u.Email).HasMaxLength(255).IsRequired();
             builder.Property(u => u.PasswordHash).HasMaxLength(255).IsRequired();
+            builder.Property(u => u.PasswordSalt).HasMaxLength(255).IsRequired();
             builder.Property(u => u.CreatedAt).HasDefaultValueSql("getdate()").IsRequired();
             builder.Property(u => u.UpdatedAt);
 
