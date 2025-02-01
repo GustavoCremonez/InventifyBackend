@@ -1,5 +1,9 @@
-﻿using InventifyBackend.Application.Maps;
+﻿using InventifyBackend.Application.Contracts;
+using InventifyBackend.Application.Maps;
+using InventifyBackend.Application.Services;
+using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Infra.Context;
+using InventifyBackend.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +23,11 @@ namespace InventifyBackend.Infra
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
                 );
 
-
             services.AddAutoMapper(typeof(MapConfiguration));
-            //services.AddScoped<IUserService, IUserService>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGeneralRepository, GeneralRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
