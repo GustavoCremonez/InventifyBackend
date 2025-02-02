@@ -6,10 +6,10 @@ namespace InventifyBackend.Application.Contracts
     {
         Task<ResponseDto<Guid>> Add(UserCreateResource userDto, CancellationToken cancellationToken);
 
-        Task<ResponseDto<UserDto>> Get(Guid id);
+        Task<ResponseDto<UserDto>> Get(string email);
 
-        Task<ResponseDto<UserDto>> Update(UserDto userDto);
+        Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource);
 
-        Task Delete(Guid id);
+        Task<ResponseDto<Guid>> Delete(string email);
     }
 }
