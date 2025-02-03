@@ -31,7 +31,7 @@ namespace InventifyBackend.Application.Services
             {
                 User user = _mapper.Map<User>(userResource);
 
-                if (await _userRepository.Get(user.Email) != null)
+                if (await _userRepository.Get(user.Email, cancellationToken) != null)
                 {
                     return ResponseDto<Guid>.Failure(400, "There is already a user with this email.");
                 }
@@ -46,25 +46,85 @@ namespace InventifyBackend.Application.Services
 
                 return ResponseDto<Guid>.Success(user.Id);
             }
-            catch (Exception e)
+            catch
             {
-                return ResponseDto<Guid>.Failure(500, "Error when registering user." + e.Message);
+                return ResponseDto<Guid>.Failure(500, "Error when registering user.");
             }
         }
 
-        public async Task<ResponseDto<UserDto>> Get(Guid id)
+        public async Task<ResponseDto<UserDto>> Get(string email, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                User? user = await _userRepository.Get(email, cancellationToken);
+
+                if (user == null)
+                {
+                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
+                }
+
+                UserDto userDto = _mapper.Map<UserDto>(user);
+
+                return ResponseDto<UserDto>.Success(userDto);
+            }
+            catch
+            {
+                return ResponseDto<UserDto>.Failure(500, "Error when searching for user.");
+            }
         }
 
-        public async Task<ResponseDto<UserDto>> Update(UserDto userDto)
+        public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (userResource == null)
+                {
+                    return ResponseDto<UserDto>.Failure(400, "The user information must contain a value.");
+                }
+
+                User? user = await _userRepository.Get(userResource.id, cancellationToken);
+                
+                if (user == null)
+                {
+                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
+                }
+
+                string passwordSalt = PasswordHelper.GenerateSalt();
+                string passwordHash = PasswordHelper.ComputeHash(userResource.password, passwordSalt, _passwordSettings.Pepper, _iteration);
+
+                user.UpdateUser(userResource.name, userResource.email, passwordHash, passwordSalt);
+
+                await _generalRepository.SaveAsync();
+
+                UserDto userDto = _mapper.Map<UserDto>(user);
+
+                return ResponseDto<UserDto>.Success(userDto);
+            }
+            catch
+            {
+                return ResponseDto<UserDto>.Failure(500, "Error when updateing user.");
+            }
         }
 
-        public async Task Delete(Guid id)
+        public async Task<ResponseDto<Guid>> Delete(string email, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                User? user = await _userRepository.Get(email, cancellationToken);
+
+                if (user == null)
+                {
+                    return ResponseDto<Guid>.Failure(400, "There is no user with this email.");
+                }
+
+                await _generalRepository.Delete(user);
+
+                return ResponseDto<Guid>.Success(user.Id);
+            }
+            catch
+            {
+                return ResponseDto<Guid>.Failure(500, "Error when deleting user.");
+            }
         }
     }
 }

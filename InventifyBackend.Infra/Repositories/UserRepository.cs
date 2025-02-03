@@ -14,11 +14,25 @@ namespace InventifyBackend.Infra.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public async Task<User?> Get(string email)
+        public async Task<User?> Get(Guid id, CancellationToken cancellationToken)
         {
             try
             {
-                User? user = await _applicationDbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+                User? user = await _applicationDbContext.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+
+                return user;
+            }
+            catch
+            {
+                throw new Exception("Error while searching for user.");
+            }
+        }
+
+        public async Task<User?> Get(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                User? user = await _applicationDbContext.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
                 return user;
             }
