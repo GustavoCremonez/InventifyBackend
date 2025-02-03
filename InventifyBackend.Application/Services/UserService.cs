@@ -31,7 +31,7 @@ namespace InventifyBackend.Application.Services
             {
                 User user = _mapper.Map<User>(userResource);
 
-                if (await _userRepository.Get(user.Email) != null)
+                if (await _userRepository.Get(user.Email, cancellationToken) != null)
                 {
                     return ResponseDto<Guid>.Failure(400, "There is already a user with this email.");
                 }
@@ -52,11 +52,11 @@ namespace InventifyBackend.Application.Services
             }
         }
 
-        public async Task<ResponseDto<UserDto>> Get(string email)
+        public async Task<ResponseDto<UserDto>> Get(string email, CancellationToken cancellationToken)
         {
             try
             {
-                User? user = await _userRepository.Get(email);
+                User? user = await _userRepository.Get(email, cancellationToken);
 
                 if (user == null)
                 {
@@ -73,7 +73,7 @@ namespace InventifyBackend.Application.Services
             }
         }
 
-        public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource)
+        public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace InventifyBackend.Application.Services
                     return ResponseDto<UserDto>.Failure(400, "The user information must contain a value.");
                 }
 
-                User? user = await _userRepository.Get(userResource.id);
+                User? user = await _userRepository.Get(userResource.id, cancellationToken);
                 
                 if (user == null)
                 {
@@ -106,11 +106,11 @@ namespace InventifyBackend.Application.Services
             }
         }
 
-        public async Task<ResponseDto<Guid>> Delete(string email)
+        public async Task<ResponseDto<Guid>> Delete(string email, CancellationToken cancellationToken)
         {
             try
             {
-                User? user = await _userRepository.Get(email);
+                User? user = await _userRepository.Get(email, cancellationToken);
 
                 if (user == null)
                 {

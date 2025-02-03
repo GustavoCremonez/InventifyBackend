@@ -56,9 +56,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Get(string email)
+        public async Task<ActionResult> Get(string email, CancellationToken cancellationToken)
         {
-            ResponseDto<UserDto>? response = await _userService.Get(email);
+            ResponseDto<UserDto>? response = await _userService.Get(email, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -85,9 +85,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Update(UserUpdateResource userResource)
+        public async Task<ActionResult> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
         {
-            ResponseDto<UserDto> response = await _userService.Update(userResource);
+            ResponseDto<UserDto> response = await _userService.Update(userResource, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -113,9 +113,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Delete(string email)
+        public async Task<ActionResult> Delete(string email, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _userService.Delete(email);
+            ResponseDto<Guid> response = await _userService.Delete(email, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
