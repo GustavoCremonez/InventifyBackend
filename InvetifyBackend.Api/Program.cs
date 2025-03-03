@@ -27,6 +27,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<PasswordSettings>(
             builder.Configuration.GetSection("PasswordSettings"));
+builder.Services.Configure<JwtSettings>(
+            builder.Configuration.GetSection("Jwt"));
 
 WebApplication app = builder.Build();
 
