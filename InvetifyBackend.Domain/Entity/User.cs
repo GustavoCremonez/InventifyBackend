@@ -42,7 +42,7 @@ namespace InventifyBackend.Domain.Entity
             Email = email;
             UpdatedAt = DateTime.Now;
 
-            SetPasswordInfos(passwordHash, PasswordSalt);
+            SetPasswordInfos(passwordHash, passwordSalt);
             ValidateUser();
         }
 
