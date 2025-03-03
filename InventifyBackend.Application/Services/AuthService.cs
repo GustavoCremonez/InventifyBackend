@@ -31,7 +31,7 @@ namespace InventifyBackend.Application.Services
                 ResponseDto<UserDto> user = await _userService.Get(resource.email, cancellationToken);
                 if (user.StatusCode != 200)
                 {
-                    return ResponseDto<object>.Failure(404, "Error proccessing user info.");
+                    return ResponseDto<object>.Failure(400, "Error proccessing user info.");
                 }
 
                 UserDto userData = user.Data;
@@ -45,7 +45,7 @@ namespace InventifyBackend.Application.Services
                 }
                 else
                 {
-                    return ResponseDto<object>.Failure(404, "Error proccessing user info.");
+                    return ResponseDto<object>.Failure(400, "Error proccessing user info.");
                 }
             }
             catch
