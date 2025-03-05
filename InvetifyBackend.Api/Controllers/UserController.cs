@@ -58,7 +58,7 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Get(string email, CancellationToken cancellationToken)
         {
-            ResponseDto<UserDto>? response = await _userService.Get(email, cancellationToken);
+            ResponseDto<UserDto>? response = await _userService.GetAbstracted(email, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
