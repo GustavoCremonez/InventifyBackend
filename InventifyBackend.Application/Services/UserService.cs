@@ -73,6 +73,30 @@ namespace InventifyBackend.Application.Services
             }
         }
 
+        public async Task<ResponseDto<UserDto>> GetAbstracted(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                User? user = await _userRepository.Get(email, cancellationToken);
+
+                if (user == null)
+                {
+                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
+                }
+
+                UserDto userDto = _mapper.Map<UserDto>(user);
+
+                userDto.PasswordHash = string.Empty;
+                userDto.PasswordSalt = string.Empty;
+
+                return ResponseDto<UserDto>.Success(userDto);
+            }
+            catch
+            {
+                return ResponseDto<UserDto>.Failure(500, "Error when searching for user.");
+            }
+        }
+
         public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
         {
             try
