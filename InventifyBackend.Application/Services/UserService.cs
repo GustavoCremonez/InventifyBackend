@@ -2,6 +2,7 @@
 using InventifyBackend.Application.Configuration;
 using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
+using InventifyBackend.Application.Dtos.User;
 using InventifyBackend.Application.Helper;
 using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Domain.Entity;
@@ -126,7 +127,7 @@ namespace InventifyBackend.Application.Services
             }
             catch
             {
-                return ResponseDto<UserDto>.Failure(500, "Error when updateing user.");
+                return ResponseDto<UserDto>.Failure(500, "Error when updating user.");
             }
         }
 

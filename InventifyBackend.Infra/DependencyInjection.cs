@@ -25,7 +25,6 @@ namespace InventifyBackend.Infra
 
             services.AddAutoMapper(typeof(MapConfiguration));
 
-
             #region Auth Injections
             services.AddScoped<IAuthService, AuthService>();
             #endregion Auth Injections
@@ -34,6 +33,11 @@ namespace InventifyBackend.Infra
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             #endregion User Injections
+
+            #region Categorie Injections
+            services.AddScoped<ICategorieService, CategorieService>();
+            services.AddScoped<ICategorieRepository, CategorieRepository>();
+            #endregion Categorie Injections
 
             #region General Injections
             services.AddScoped<IGeneralRepository, GeneralRepository>();

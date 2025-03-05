@@ -11,6 +11,7 @@ namespace InventifyBackend.Infra.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Categorie> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

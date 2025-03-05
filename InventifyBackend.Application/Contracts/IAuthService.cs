@@ -1,4 +1,5 @@
 ﻿using InventifyBackend.Application.Dtos;
+using InventifyBackend.Application.Dtos.Login;
 
 namespace InventifyBackend.Application.Contracts
 {

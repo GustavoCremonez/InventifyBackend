@@ -1,6 +1,8 @@
 ﻿using InventifyBackend.Application.Configuration;
 using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
+using InventifyBackend.Application.Dtos.Login;
+using InventifyBackend.Application.Dtos.User;
 using InventifyBackend.Application.Helper;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
