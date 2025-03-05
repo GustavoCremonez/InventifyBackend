@@ -1,5 +1,7 @@
 ﻿using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
+using InventifyBackend.Application.Dtos.Login;
+using InventifyBackend.Application.Dtos.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventifyBackend.Api.Controllers

@@ -1,4 +1,4 @@
-﻿namespace InventifyBackend.Application.Dtos
+﻿namespace InventifyBackend.Application.Dtos.User
 {
     public class UserDto
     {
