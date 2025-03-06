@@ -1,12 +1,13 @@
-﻿using Azure;
-using InventifyBackend.Application.Contracts;
+﻿using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventifyBackend.Api.Controllers
 {
     [Route("api/[controller]")]
+
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -53,6 +54,7 @@ namespace InventifyBackend.Api.Controllers
         ///<response code="400">Wrong return</response>
         ///<response code="500">Internal error on server</response>
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(ResponseDto<List<UserDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -82,6 +84,7 @@ namespace InventifyBackend.Api.Controllers
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(typeof(ResponseDto<UserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -110,6 +113,7 @@ namespace InventifyBackend.Api.Controllers
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpDelete]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
