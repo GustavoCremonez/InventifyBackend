@@ -19,14 +19,17 @@ namespace InventifyBackend.Application.Services
         private readonly JwtSettings _jwtSettings;
         private readonly int _iteration = 3;
 
-        public AuthService(IUserService userService, IOptions<PasswordSettings> passwordSettings, IOptions<JwtSettings> jwtSettings)
+        public AuthService(
+           IUserService userService,
+           IOptions<PasswordSettings> passwordSettings,
+           IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
             _passwordSettings = passwordSettings.Value;
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<ResponseDto<object>> LoginAsync(UserResource resource, CancellationToken cancellationToken)
+        public async Task<ResponseDto<object>> LoginAsync(LoginResource resource, CancellationToken cancellationToken)
         {
             try
             {
@@ -56,7 +59,7 @@ namespace InventifyBackend.Application.Services
             }
         }
 
-        private string GenerateJwtToken(string username)
+        public string GenerateJwtToken(string username)
         {
             Claim[] claims = new[]
             {

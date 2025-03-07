@@ -5,6 +5,6 @@ namespace InventifyBackend.Application.Contracts
 {
     public interface IAuthService
     {
-        Task<ResponseDto<object>> LoginAsync(UserResource resource, CancellationToken cancellationToken);
+        Task<ResponseDto<object>> LoginAsync(LoginResource resource, CancellationToken cancellationToken);
     }
 }

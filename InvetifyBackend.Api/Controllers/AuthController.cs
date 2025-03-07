@@ -28,7 +28,7 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Login([FromBody] UserResource resource, CancellationToken cancellationToken)
+        public async Task<ActionResult> Login([FromBody] LoginResource resource, CancellationToken cancellationToken)
         {
             ResponseDto<object> response = await _authService.LoginAsync(resource, cancellationToken);
 
