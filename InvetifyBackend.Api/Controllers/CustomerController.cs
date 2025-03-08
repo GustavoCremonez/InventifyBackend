@@ -1,27 +1,27 @@
 ﻿using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
-using InventifyBackend.Application.Dtos.Categories;
-using Microsoft.AspNetCore.Authorization;
+using InventifyBackend.Application.Dtos.Customers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventifyBackend.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
-    public class CategorieController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        private readonly ICategorieService _categorieService;
 
-        public CategorieController(ICategorieService categorieService)
+        private readonly ICustomerService _customerService;
+
+        public CustomerController(ICustomerService customerService)
         {
-            _categorieService = categorieService;
+            _customerService = customerService;
         }
 
-        ///<summary>Add a new categorie</summary>
-        ///<param name="categorie">Categorie model to create a categorie</param>
+        ///<summary>Add a new customer</summary>
+        ///<param name="customer">Customer model to create a Customer</param>
         ///<returns>Return user created</returns>
-        ///<response code="200">Return when is created a categorie</response>
+        ///<response code="200">Return when is created a customer</response>
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpPost]
@@ -29,9 +29,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Add(CategorieCreateResource categorie, CancellationToken cancellationToken)
+        public async Task<ActionResult> Add(CustomerCreateResource customer, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _categorieService.Add(categorie, cancellationToken);
+            ResponseDto<Guid> response = await _customerService.Add(customer, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -47,20 +47,20 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Get categorie by id</summary>
-        ///<param name="id">Id to search the categorie</param>
-        ///<returns>Return the categorie</returns>
-        ///<response code="200">Return when get categorie</response>
+        ///<summary>Get customer by id</summary>
+        ///<param name="id">Id to search the customer</param>
+        ///<returns>Return the customer</returns>
+        ///<response code="200">Return when get customer</response>
         ///<response code="400">Wrong return</response>
         ///<response code="500">Internal error on server</response>
         [HttpGet]
-        [ProducesResponseType(typeof(ResponseDto<List<CategorieDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseDto<List<CustomerDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         public async Task<ActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            ResponseDto<CategorieDto>? response = await _categorieService.Get(id, cancellationToken);
+            ResponseDto<CustomerDto>? response = await _customerService.Get(id, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -76,20 +76,19 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Add a new categorie</summary>
-        ///<param name="categorieResource">Categorie model to update a categorie</param>
-        ///<returns>Return categorie updated</returns>
-        ///<response code="200">Return when is updated a categorie</response>
-        ///<response code="400">Wrong informations</response>
+        ///<summary>Get customer by id</summary>
+        ///<returns>Return the customer</returns>
+        ///<response code="200">Return when get customer</response>
+        ///<response code="400">Wrong return</response>
         ///<response code="500">Internal error on server</response>
-        [HttpPut]
-        [ProducesResponseType(typeof(ResponseDto<CategorieDto>), StatusCodes.Status200OK)]
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(ResponseDto<List<CustomerDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Update(CategorieUpdateResource categorieResource, CancellationToken cancellationToken)
+        public async Task<ActionResult> GetAll(CancellationToken cancellationToken)
         {
-            ResponseDto<CategorieDto> response = await _categorieService.Update(categorieResource, cancellationToken);
+            ResponseDto<IEnumerable<CustomerDto>> response = await _customerService.GetAll(cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -105,9 +104,38 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Delete a categorie</summary>
-        ///<param name="id">Categorie id to delete this user</param>
-        ///<response code="200">Return when delete a categorie successfully</response>
+        ///<summary>Update a customer</summary>
+        ///<param name="customerUpdateResource">Customer model to update a Customer</param>
+        ///<returns>Return customer updated</returns>
+        ///<response code="200">Return when is updated a customer</response>
+        ///<response code="400">Wrong informations</response>
+        ///<response code="500">Internal error on server</response>
+        [HttpPut]
+        [ProducesResponseType(typeof(ResponseDto<CustomerDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        public async Task<ActionResult> Update(CustomerUpdateResource customerUpdateResource, CancellationToken cancellationToken)
+        {
+            ResponseDto<CustomerDto> response = await _customerService.Update(customerUpdateResource, cancellationToken);
+
+            if (response.StatusCode == StatusCodes.Status200OK)
+            {
+                return Ok(response);
+            }
+            else if (response.StatusCode == StatusCodes.Status400BadRequest)
+            {
+                return BadRequest(response);
+            }
+            else
+            {
+                return StatusCode(response.StatusCode, response);
+            }
+        }
+
+        ///<summary>Delete a customer</summary>
+        ///<param name="id">Customer id to delete this user</param>
+        ///<response code="200">Return when delete a customer successfully</response>
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpDelete]
@@ -117,7 +145,7 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _categorieService.Delete(id, cancellationToken);
+            ResponseDto<Guid> response = await _customerService.Delete(id, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InventifyBackend.Application.Dtos.Categories;
+using InventifyBackend.Application.Dtos.Customers;
 using InventifyBackend.Application.Dtos.User;
 using InventifyBackend.Domain.Entity;
 
@@ -20,6 +21,12 @@ namespace InventifyBackend.Application.Maps
             CreateMap<CategorieCreateResource, Categorie>();
             CreateMap<CategorieCreateResource, CategorieDto>();
             #endregion Categorie mapping
+
+            #region Customer mapping
+            CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<CustomerCreateResource, Customer>();
+            CreateMap<CustomerCreateResource, CustomerDto>();
+            #endregion Customer mapping
         }
     }
 }
