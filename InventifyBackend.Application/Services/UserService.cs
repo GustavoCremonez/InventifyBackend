@@ -6,6 +6,7 @@ using InventifyBackend.Application.Dtos.User;
 using InventifyBackend.Application.Helper;
 using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Domain.Entity;
+using InventifyBackend.Domain.Validation;
 using Microsoft.Extensions.Options;
 
 namespace InventifyBackend.Application.Services
@@ -46,6 +47,10 @@ namespace InventifyBackend.Application.Services
                 await _generalRepository.Add(user, cancellationToken);
 
                 return ResponseDto<Guid>.Success(user.Id);
+            }
+            catch (DomainExceptionValidation e)
+            {
+                return ResponseDto<Guid>.Failure(500, "Error when registering user: " + e.Message);
             }
             catch
             {
@@ -124,6 +129,10 @@ namespace InventifyBackend.Application.Services
                 UserDto userDto = _mapper.Map<UserDto>(user);
 
                 return ResponseDto<UserDto>.Success(userDto);
+            }
+            catch (DomainExceptionValidation e)
+            {
+                return ResponseDto<UserDto>.Failure(500, "Error when updating user: " + e.Message);
             }
             catch
             {
