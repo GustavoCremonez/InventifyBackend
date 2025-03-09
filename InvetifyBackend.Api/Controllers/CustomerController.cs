@@ -76,7 +76,7 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Get customer by id</summary>
+        ///<summary>Get all customers</summary>
         ///<returns>Return the customer</returns>
         ///<response code="200">Return when get customer</response>
         ///<response code="400">Wrong return</response>

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventifyBackend.Infra.Configurations
 {
-    internal sealed class CategorieConfiguration : IEntityTypeConfiguration<Categorie>
+    internal sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Categorie> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Categories");
 

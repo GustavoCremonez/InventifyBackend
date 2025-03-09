@@ -2,9 +2,9 @@
 
 namespace InventifyBackend.Domain.Entity
 {
-    public sealed class Categorie
+    public sealed class Category
     {
-        public Categorie(Guid id, string name, string description, DateTime? createdAt, DateTime? updatedAt)
+        public Category(Guid id, string name, string description, DateTime? createdAt, DateTime? updatedAt)
         {
             Id = id;
             Name = name;
@@ -13,7 +13,7 @@ namespace InventifyBackend.Domain.Entity
             UpdatedAt = updatedAt;
         }
 
-        protected Categorie()
+        protected Category()
         { 
         }
 
@@ -27,16 +27,16 @@ namespace InventifyBackend.Domain.Entity
 
         public DateTime? UpdatedAt { get; private set; }
 
-        public void UpdateCategorie(string name, string description)
+        public void UpdateCategory(string name, string description)
         {
             Name = name;
             Description = description;
             UpdatedAt = DateTime.Now;
 
-            ValidateCategorie();
+            ValidateCategory();
         }
 
-        public void ValidateCategorie()
+        public void ValidateCategory()
         {
             DomainExceptionValidation.When(string.IsNullOrEmpty(Name), "The name must not be empty.");
             DomainExceptionValidation.When(string.IsNullOrEmpty(Description), "The description must not be empty.");

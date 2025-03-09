@@ -77,7 +77,7 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Add a new user</summary>
+        ///<summary>Update a user</summary>
         ///<param name="userResource">User model to update a user</param>
         ///<returns>Return user updated</returns>
         ///<response code="200">Return when is updated a user</response>
