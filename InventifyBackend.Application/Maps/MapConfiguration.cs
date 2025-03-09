@@ -16,11 +16,11 @@ namespace InventifyBackend.Application.Maps
             CreateMap<UserCreateResource, UserDto>();
             #endregion User mapping
 
-            #region Categorie mapping
-            CreateMap<Categorie, CategorieDto>().ReverseMap();
-            CreateMap<CategorieCreateResource, Categorie>();
-            CreateMap<CategorieCreateResource, CategorieDto>();
-            #endregion Categorie mapping
+            #region Category mapping
+            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<CategoryCreateResource, Category>();
+            CreateMap<CategoryCreateResource, CategoryDto>();
+            #endregion Category mapping
 
             #region Customer mapping
             CreateMap<Customer, CustomerDto>().ReverseMap();

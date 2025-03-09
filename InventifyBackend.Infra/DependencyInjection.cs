@@ -34,10 +34,10 @@ namespace InventifyBackend.Infra
             services.AddScoped<IUserRepository, UserRepository>();
             #endregion User Injections
 
-            #region Categorie Injections
-            services.AddScoped<ICategorieService, CategorieService>();
-            services.AddScoped<ICategorieRepository, CategorieRepository>();
-            #endregion Categorie Injections
+            #region Category Injections
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            #endregion Category Injections
 
             #region General Injections
             services.AddScoped<IGeneralRepository, GeneralRepository>();
