@@ -9,19 +9,19 @@ namespace InventifyBackend.Api.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class CategorieController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly ICategorieService _categorieService;
+        private readonly ICategoryService _categoryService;
 
-        public CategorieController(ICategorieService categorieService)
+        public CategoryController(ICategoryService categoryService)
         {
-            _categorieService = categorieService;
+            _categoryService = categoryService;
         }
 
-        ///<summary>Add a new categorie</summary>
-        ///<param name="categorie">Categorie model to create a categorie</param>
+        ///<summary>Add a new category</summary>
+        ///<param name="category">Category model to create a category</param>
         ///<returns>Return user created</returns>
-        ///<response code="200">Return when is created a categorie</response>
+        ///<response code="200">Return when is created a category</response>
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpPost]
@@ -29,9 +29,9 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Add(CategorieCreateResource categorie, CancellationToken cancellationToken)
+        public async Task<ActionResult> Add(CategoryCreateResource category, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _categorieService.Add(categorie, cancellationToken);
+            ResponseDto<Guid> response = await _categoryService.Add(category, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -47,20 +47,20 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Get categorie by id</summary>
-        ///<param name="id">Id to search the categorie</param>
-        ///<returns>Return the categorie</returns>
-        ///<response code="200">Return when get categorie</response>
+        ///<summary>Get category by id</summary>
+        ///<param name="id">Id to search the category</param>
+        ///<returns>Return the category</returns>
+        ///<response code="200">Return when get category</response>
         ///<response code="400">Wrong return</response>
         ///<response code="500">Internal error on server</response>
         [HttpGet]
-        [ProducesResponseType(typeof(ResponseDto<List<CategorieDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseDto<List<CategoryDto>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         public async Task<ActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            ResponseDto<CategorieDto>? response = await _categorieService.Get(id, cancellationToken);
+            ResponseDto<CategoryDto>? response = await _categoryService.Get(id, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -76,20 +76,20 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Add a new categorie</summary>
-        ///<param name="categorieResource">Categorie model to update a categorie</param>
-        ///<returns>Return categorie updated</returns>
-        ///<response code="200">Return when is updated a categorie</response>
+        ///<summary>Update a category</summary>
+        ///<param name="categoryResource">Category model to update a category</param>
+        ///<returns>Return category updated</returns>
+        ///<response code="200">Return when is updated a category</response>
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpPut]
-        [ProducesResponseType(typeof(ResponseDto<CategorieDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseDto<CategoryDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Update(CategorieUpdateResource categorieResource, CancellationToken cancellationToken)
+        public async Task<ActionResult> Update(CategoryUpdateResource categoryResource, CancellationToken cancellationToken)
         {
-            ResponseDto<CategorieDto> response = await _categorieService.Update(categorieResource, cancellationToken);
+            ResponseDto<CategoryDto> response = await _categoryService.Update(categoryResource, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {
@@ -105,9 +105,9 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
-        ///<summary>Delete a categorie</summary>
-        ///<param name="id">Categorie id to delete this user</param>
-        ///<response code="200">Return when delete a categorie successfully</response>
+        ///<summary>Delete a category</summary>
+        ///<param name="id">Category id to delete this user</param>
+        ///<response code="200">Return when delete a category successfully</response>
         ///<response code="400">Wrong informations</response>
         ///<response code="500">Internal error on server</response>
         [HttpDelete]
@@ -117,7 +117,7 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _categorieService.Delete(id, cancellationToken);
+            ResponseDto<Guid> response = await _categoryService.Delete(id, cancellationToken);
 
             if (response.StatusCode == StatusCodes.Status200OK)
             {

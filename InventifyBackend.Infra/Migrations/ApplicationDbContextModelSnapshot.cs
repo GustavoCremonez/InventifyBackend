@@ -22,7 +22,7 @@ namespace InventifyBackend.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("InventifyBackend.Domain.Entity.Categorie", b =>
+            modelBuilder.Entity("InventifyBackend.Domain.Entity.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

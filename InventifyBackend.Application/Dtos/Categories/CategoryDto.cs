@@ -1,6 +1,6 @@
 ﻿namespace InventifyBackend.Application.Dtos.Categories
 {
-    public class CategorieDto
+    public class CategoryDto
     {
         public Guid Id { get; set; }
 
