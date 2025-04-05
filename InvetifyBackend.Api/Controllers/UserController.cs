@@ -9,20 +9,14 @@ namespace InventifyBackend.Api.Controllers
     [Route("api/[controller]")]
 
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         ///<summary>Add a new user</summary>
+        /// <param name="cancellationToken">Token to cancellation operation</param>
         ///<param name="user">User model to create a user</param>
         ///<returns>Return user created</returns>
         ///<response code="200">Return when is created a user</response>
-        ///<response code="400">Wrong informations</response>
+        ///<response code="400">Wrong information</response>
         ///<response code="500">Internal error on server</response>
         [HttpPost]
         [ProducesResponseType(typeof(ResponseDto<Guid>), StatusCodes.Status200OK)]
@@ -31,23 +25,18 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Add(UserCreateResource user, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _userService.Add(user, cancellationToken);
+            ResponseDto<Guid> response = await userService.Add(user, cancellationToken);
 
-            if (response.StatusCode == StatusCodes.Status200OK)
+            return response.StatusCode switch
             {
-                return Ok(response);
-            }
-            else if (response.StatusCode == StatusCodes.Status400BadRequest)
-            {
-                return BadRequest(response);
-            }
-            else
-            {
-                return StatusCode(response.StatusCode, response);
-            }
+                StatusCodes.Status200OK => Ok(response),
+                StatusCodes.Status400BadRequest => BadRequest(response),
+                _ => StatusCode(response.StatusCode, response)
+            };
         }
 
         ///<summary>Get user by email</summary>
+        /// <param name="cancellationToken">Token to cancellation operation</param>
         ///<param name="email">Email to search the user</param>
         ///<returns>Return the user</returns>
         ///<response code="200">Return when get user</response>
@@ -61,27 +50,22 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Get(string email, CancellationToken cancellationToken)
         {
-            ResponseDto<UserDto>? response = await _userService.GetAbstracted(email, cancellationToken);
+            ResponseDto<UserDto>? response = await userService.GetAbstracted(email, cancellationToken);
 
-            if (response.StatusCode == StatusCodes.Status200OK)
+            return response.StatusCode switch
             {
-                return Ok(response);
-            }
-            else if (response.StatusCode == StatusCodes.Status400BadRequest)
-            {
-                return BadRequest(response);
-            }
-            else
-            {
-                return StatusCode(response.StatusCode, response);
-            }
+                StatusCodes.Status200OK => Ok(response),
+                StatusCodes.Status400BadRequest => BadRequest(response),
+                _ => StatusCode(response.StatusCode, response)
+            };
         }
 
         ///<summary>Update a user</summary>
+        /// <param name="cancellationToken">Token to cancellation operation</param>
         ///<param name="userResource">User model to update a user</param>
         ///<returns>Return user updated</returns>
         ///<response code="200">Return when is updated a user</response>
-        ///<response code="400">Wrong informations</response>
+        ///<response code="400">Wrong information</response>
         ///<response code="500">Internal error on server</response>
         [HttpPut]
         [Authorize]
@@ -91,27 +75,22 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
         {
-            ResponseDto<UserDto> response = await _userService.Update(userResource, cancellationToken);
+            ResponseDto<UserDto> response = await userService.Update(userResource, cancellationToken);
 
-            if (response.StatusCode == StatusCodes.Status200OK)
+            return response.StatusCode switch
             {
-                return Ok(response);
-            }
-            else if (response.StatusCode == StatusCodes.Status400BadRequest)
-            {
-                return BadRequest(response);
-            }
-            else
-            {
-                return StatusCode(response.StatusCode, response);
-            }
+                StatusCodes.Status200OK => Ok(response),
+                StatusCodes.Status400BadRequest => BadRequest(response),
+                _ => StatusCode(response.StatusCode, response)
+            };
         }
 
-        ///<summary>Delete a user</summary>
-        ///<param name="email">User email to delete this user</param>
-        ///<response code="200">Return when delete a user successfully</response>
-        ///<response code="400">Wrong informations</response>
-        ///<response code="500">Internal error on server</response>
+        /// <summary>Delete a user</summary>
+        /// <param name="email">User email to delete this user</param>
+        /// <param name="cancellationToken">Token to cancellation operation</param>
+        /// <response code="200">Return when delete a user successfully</response>
+        /// <response code="400">Wrong information</response>
+        /// <response code="500">Internal error on server</response>
         [HttpDelete]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -120,20 +99,14 @@ namespace InventifyBackend.Api.Controllers
         [Produces("application/json")]
         public async Task<ActionResult> Delete(string email, CancellationToken cancellationToken)
         {
-            ResponseDto<Guid> response = await _userService.Delete(email, cancellationToken);
+            ResponseDto<Guid> response = await userService.Delete(email, cancellationToken);
 
-            if (response.StatusCode == StatusCodes.Status200OK)
+            return response.StatusCode switch
             {
-                return Ok(response);
-            }
-            else if (response.StatusCode == StatusCodes.Status400BadRequest)
-            {
-                return BadRequest(response);
-            }
-            else
-            {
-                return StatusCode(response.StatusCode, response);
-            }
+                StatusCodes.Status200OK => Ok(response),
+                StatusCodes.Status400BadRequest => BadRequest(response),
+                _ => StatusCode(response.StatusCode, response)
+            };
         }
     }
 }
