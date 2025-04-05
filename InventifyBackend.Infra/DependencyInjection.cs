@@ -48,6 +48,13 @@ namespace InventifyBackend.Infra
             services.AddScoped<ICustomerService, CustomerService>();
             #endregion CustomerInjections
 
+            #region Product Injections
+
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
+            #endregion
+            
             return services;
         }
     }

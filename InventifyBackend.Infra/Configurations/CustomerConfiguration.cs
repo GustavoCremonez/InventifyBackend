@@ -21,6 +21,12 @@ namespace InventifyBackend.Infra.Configurations
             builder.Property(u => u.AddressNumber).HasMaxLength(255).IsRequired();
             builder.Property(u => u.CreatedAt).HasDefaultValueSql("getdate()").IsRequired();
             builder.Property(u => u.UpdatedAt);
+
+            builder.Property(u => u.UserId).IsRequired();
+            builder.HasOne(u => u.User)
+                   .WithMany()
+                   .HasForeignKey(u => u.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

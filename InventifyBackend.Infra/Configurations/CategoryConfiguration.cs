@@ -15,6 +15,12 @@ namespace InventifyBackend.Infra.Configurations
             builder.Property(u => u.Description).HasMaxLength(500).IsRequired();
             builder.Property(u => u.CreatedAt).HasDefaultValueSql("getdate()").IsRequired();
             builder.Property(u => u.UpdatedAt);
+
+            builder.Property(u => u.ProductCategories)
+                   .HasConversion(
+                       v => v.ToString(),
+                       v => (ProductCategory)Enum.Parse(typeof(ProductCategory), v))
+                   .IsRequired();
         }
     }
 }

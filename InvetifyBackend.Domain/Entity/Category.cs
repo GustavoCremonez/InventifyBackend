@@ -2,7 +2,7 @@
 
 namespace InventifyBackend.Domain.Entity
 {
-    public sealed class Category
+    public sealed class Category : StandardEntity
     {
         public Category(Guid id, string name, string description, DateTime? createdAt, DateTime? updatedAt)
         {
@@ -16,16 +16,13 @@ namespace InventifyBackend.Domain.Entity
         protected Category()
         { 
         }
-
-        public Guid Id { get; private set; }
-
+        
         public string Name { get; private set; }
 
         public string Description { get; private set; }
-
-        public DateTime? CreatedAt { get; private set; }
-
-        public DateTime? UpdatedAt { get; private set; }
+        
+        public ProductCategory ProductCategories { get; private set; } 
+        
 
         public void UpdateCategory(string name, string description)
         {

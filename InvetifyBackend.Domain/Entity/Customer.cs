@@ -2,7 +2,7 @@
 
 namespace InventifyBackend.Domain.Entity
 {
-    public sealed class Customer
+    public sealed class Customer : StandardEntity
     {
         public Customer(Guid id, string name, string email, string phone, string street, string city, string state, string postalCode, string addressNumber, DateTime? createdAt, DateTime? updatedAt)
         {
@@ -24,8 +24,10 @@ namespace InventifyBackend.Domain.Entity
 
         }
 
-        public Guid Id { get; private set; }
-
+        public Guid UserId { get; set; }
+        
+        public User User { get; set; }
+        
         public string Name { get; private set; }
 
         public string Email { get; private set; }
@@ -41,10 +43,6 @@ namespace InventifyBackend.Domain.Entity
         public string PostalCode { get; private set; }
 
         public string AddressNumber { get; private set; }
-
-        public DateTime? CreatedAt { get; private set; }
-
-        public DateTime? UpdatedAt { get; private set; }
 
 
         public void UpdateCustomer(string name, string email, string phone, string street, string city, string state, string postalCode, string addressNumber)
