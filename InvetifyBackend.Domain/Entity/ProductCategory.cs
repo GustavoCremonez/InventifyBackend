@@ -2,13 +2,10 @@ namespace InventifyBackend.Domain.Entity;
 
 public class ProductCategory
 {
-    public ProductCategory(Guid id, Guid productId, Guid categoryId, Product product, Category category)
+    public ProductCategory(Guid productId, Guid categoryId)
     {
-        Id = id;
         ProductId = productId;
         CategoryId = categoryId;
-        Product = product;
-        Category = category;
     }
     
     protected ProductCategory()

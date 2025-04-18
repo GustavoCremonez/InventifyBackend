@@ -1,42 +1,94 @@
+using AutoMapper;
 using InventifyBackend.Application.Contracts;
+using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.Product;
+using InventifyBackend.Domain.Contracts;
+using InventifyBackend.Domain.Entity;
 
 namespace InventifyBackend.Application.Services;
 
 public class ProductService : IProductService
 {
-    public Task<ProductDto> GetProductByIdAsync(Guid id)
+    private readonly IProductRepository _productRepository;
+    private readonly ICategoryService _categoryService;
+    private readonly IGeneralRepository _generalRepository;
+    private readonly IMapper _mapper;
+
+    public ProductService(IProductRepository productRepository, IGeneralRepository generalRepository, IMapper mapper,
+        ICategoryService categoryService)
     {
-        throw new NotImplementedException();
+        _productRepository = productRepository;
+        _generalRepository = generalRepository;
+        _categoryService = categoryService;
+        _mapper = mapper;
     }
 
-    public Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+    public async Task<ResponseDto<ProductDto>> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetByIdAsync(id, cancellationToken);
+        var mappedProduct = _mapper.Map<ProductDto>(product);
+
+        return ResponseDto<ProductDto>.Success(mappedProduct);
     }
 
-    public Task AddProductAsync(ProductCreateResource product)
+    public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllProductsAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.GetAllAsync(cancellationToken);
+        var mappedProducts = _mapper.Map<IEnumerable<ProductDto>>(products);
+
+        return ResponseDto<IEnumerable<ProductDto>>.Success(mappedProducts);
     }
 
-    public Task UpdateProductAsync(ProductUpdateResource product)
+    public async Task<ResponseDto<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.SearchAsync(category, cancellationToken);
+        var mappedProducts = _mapper.Map<IEnumerable<ProductDto>>(products);
+
+        return ResponseDto<IEnumerable<ProductDto>>.Success(mappedProducts);
     }
 
-    public Task DeleteProductAsync(Guid id)
+    public async Task<ResponseDto<IEnumerable<ProductDto>>> SearchProductsAsync(string searchTerm,
+        CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.SearchAsync(searchTerm, cancellationToken);
+        var mappedProducts = _mapper.Map<IEnumerable<ProductDto>>(products);
+
+        return ResponseDto<IEnumerable<ProductDto>>.Success(mappedProducts);
     }
 
-    public Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(string category)
+    public async Task AddProductAsync(ProductCreateResource productResource, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var product = _mapper.Map<Product>(productResource);
+
+        if (productResource.CategoryIds.Count != 0)
+        {
+            foreach (var categoryId in productResource.CategoryIds)
+            {
+                var category = await _categoryService.Get(categoryId, cancellationToken);
+                product.AddProductCategory(new ProductCategory
+                (
+                    product.Id,
+                    categoryId
+                ));
+            }
+        }
+
+        await _generalRepository.Add(product, cancellationToken);
+        await _generalRepository.SaveAsync();
     }
 
-    public Task<IEnumerable<ProductDto>> SearchProductsAsync(string searchTerm)
+    public Task UpdateProductAsync(ProductUpdateResource product, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var mappedProduct = _mapper.Map<Product>(product);
+        _productRepository.UpdateAsync(mappedProduct, cancellationToken);
+        return _generalRepository.SaveAsync();
+    }
+
+    public async Task DeleteProductAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var product = await _productRepository.GetByIdAsync(id, cancellationToken);
+        await _generalRepository.Delete(product);
+        await _generalRepository.SaveAsync();
     }
 }

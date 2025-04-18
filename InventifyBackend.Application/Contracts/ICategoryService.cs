@@ -8,8 +8,10 @@ namespace InventifyBackend.Application.Contracts
         Task<ResponseDto<Guid>> Add(CategoryCreateResource categoryResource, CancellationToken cancellationToken);
 
         Task<ResponseDto<CategoryDto>> Get(Guid id, CancellationToken cancellationToken);
+        
+        Task<ResponseDto<IEnumerable<CategoryDto>>> GetAll(CancellationToken cancellationToken);
 
-        Task<ResponseDto<CategoryDto>> Update(CategoryUpdateResource categoryResource, CancellationToken cancellationToken);
+        Task<ResponseDto<CategoryDto>> Update(CategoryUpdateResource? categoryResource, CancellationToken cancellationToken);
 
         Task<ResponseDto<Guid>> Delete(Guid id, CancellationToken cancellationToken);
     }

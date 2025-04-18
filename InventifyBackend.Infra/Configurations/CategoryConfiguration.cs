@@ -1,6 +1,7 @@
 ﻿using InventifyBackend.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace InventifyBackend.Infra.Configurations
 {
@@ -18,9 +19,9 @@ namespace InventifyBackend.Infra.Configurations
 
             builder.Property(u => u.ProductCategories)
                    .HasConversion(
-                       v => v.ToString(),
-                       v => (ProductCategory)Enum.Parse(typeof(ProductCategory), v))
-                   .IsRequired();
+                       v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                       v => JsonSerializer.Deserialize<List<ProductCategory>>(v, (JsonSerializerOptions)null))
+                   .HasColumnType("nvarchar(max)");
         }
     }
 }

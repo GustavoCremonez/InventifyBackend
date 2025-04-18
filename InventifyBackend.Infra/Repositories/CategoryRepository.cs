@@ -27,5 +27,19 @@ namespace InventifyBackend.Infra.Repositories
                 throw new Exception("An error ocurred when trying to get category.");
             }
         }
+        
+        public async Task<IEnumerable<Category>> GetAll(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categories = await _applicationDbContext.Categories.ToListAsync(cancellationToken);
+
+                return categories;
+            }
+            catch
+            {
+                throw new Exception("An error ocurred when trying to get categories.");
+            }
+        }
     }
 }

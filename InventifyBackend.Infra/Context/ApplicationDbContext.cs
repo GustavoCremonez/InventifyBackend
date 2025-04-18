@@ -1,5 +1,6 @@
 ﻿using InventifyBackend.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
+using InventifyBackend.Infra.Configurations;
 
 namespace InventifyBackend.Infra.Context
 {
@@ -22,6 +23,7 @@ namespace InventifyBackend.Infra.Context
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            builder.SeedCategories();
         }
     }
 }

@@ -4,8 +4,8 @@ namespace InventifyBackend.Domain.Contracts;
 
 public interface IProductRepository
 {
-    Task<Product> GetByIdAsync(Guid id);
-    Task<IEnumerable<Product>> GetAllAsync();
-    Task UpdateAsync(Product product);
-    Task<IEnumerable<Product>> SearchAsync(string searchTerm);
+    Task<Product> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken);
+    Task UpdateAsync(Product product, CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> SearchAsync(string searchTerm, CancellationToken cancellationToken);
 }

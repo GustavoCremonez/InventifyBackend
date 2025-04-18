@@ -1,53 +1,44 @@
 using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using InventifyBackend.Infra.Context;
 
 namespace InventifyBackend.Infra.Repositories;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository(ApplicationDbContext context) : IProductRepository
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public ProductRepository(ApplicationDbContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
-
-    public async Task<Product> GetByIdAsync(Guid id)
+    public async Task<Product> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         if (id == Guid.Empty)
             throw new ArgumentException("Invalid ID", nameof(id));
 
-        return await _context.Products.FindAsync(id);
+        return await _context.Products.FindAsync(new object?[] { id }, cancellationToken: cancellationToken) ??
+               throw new InvalidOperationException();
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.Products.AsNoTracking().ToListAsync();
+        return await _context.Products.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync(Product product)
+    public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
     {
-        if (product == null)
-            throw new ArgumentNullException(nameof(product));
+        ArgumentNullException.ThrowIfNull(product);
 
         _context.Products.Update(product);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
-    
-    public async Task<IEnumerable<Product>> SearchAsync(string searchTerm)
+
+    public async Task<IEnumerable<Product>> SearchAsync(string searchTerm, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
-            return Enumerable.Empty<Product>();
+            return [];
 
         return await _context.Products
             .AsNoTracking()
             .Where(p => p.Name.Contains(searchTerm))
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 }

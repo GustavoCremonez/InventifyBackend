@@ -29,7 +29,7 @@ namespace InventifyBackend.Application.Services
         {
             try
             {
-                Category category = _mapper.Map<Category>(categoryResource);
+                var category = _mapper.Map<Category>(categoryResource);
 
                 category.ValidateCategory();
 
@@ -51,14 +51,14 @@ namespace InventifyBackend.Application.Services
         {
             try
             {
-                Category? category = await _categoryRepository.Get(id, cancellationToken);
+                var category = await _categoryRepository.Get(id, cancellationToken);
 
                 if (category == null)
                 {
                     return ResponseDto<CategoryDto>.Failure(400, "There is no category with this id.");
                 }
 
-                CategoryDto categoryDto = _mapper.Map<CategoryDto>(category);
+                var categoryDto = _mapper.Map<CategoryDto>(category);
 
                 return ResponseDto<CategoryDto>.Success(categoryDto);
             }
@@ -67,8 +67,23 @@ namespace InventifyBackend.Application.Services
                 return ResponseDto<CategoryDto>.Failure(500, "Error while getting category.");
             }
         }
+        
+        public async Task<ResponseDto<IEnumerable<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetAll(cancellationToken);
+                var categoryDto = _mapper.Map<IEnumerable<CategoryDto>>(categories);
 
-        public async Task<ResponseDto<CategoryDto>> Update(CategoryUpdateResource categoryResource, CancellationToken cancellationToken)
+                return ResponseDto<IEnumerable<CategoryDto>>.Success(categoryDto);
+            }
+            catch
+            {
+                return ResponseDto<IEnumerable<CategoryDto>>.Failure(500, "Error while getting categories.");
+            }
+        }
+
+        public async Task<ResponseDto<CategoryDto>> Update(CategoryUpdateResource? categoryResource, CancellationToken cancellationToken)
         {
             try
             {
@@ -104,10 +119,9 @@ namespace InventifyBackend.Application.Services
 
         public async Task<ResponseDto<Guid>> Delete(Guid id, CancellationToken cancellationToken)
         {
+            var category = await _categoryRepository.Get(id, cancellationToken);
             try
             {
-                Category? category = await _categoryRepository.Get(id, cancellationToken);
-
                 if (category == null)
                 {
                     return ResponseDto<Guid>.Failure(400, "There is no category with this id.");

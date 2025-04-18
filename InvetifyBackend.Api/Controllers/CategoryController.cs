@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventifyBackend.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    // [Authorize]
     [ApiController]
     public class CategoryController : ControllerBase
     {
@@ -76,6 +76,21 @@ namespace InventifyBackend.Api.Controllers
             }
         }
 
+        /// <summary>Get all categories</summary>
+        /// <returns>Return all categories</returns>
+        /// <response code="200">Return when categories are retrieved successfully</response>
+        /// <response code="500">Internal error on server</response>
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(ResponseDto<IEnumerable<CategoryDto>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        public async Task<ActionResult> GetAll(CancellationToken cancellationToken)
+        {
+            var response = await _categoryService.GetAll(cancellationToken);
+
+            return response.StatusCode == StatusCodes.Status200OK ? Ok(response) : StatusCode(response.StatusCode, response);
+        }
+
         ///<summary>Update a category</summary>
         ///<param name="categoryResource">Category model to update a category</param>
         ///<returns>Return category updated</returns>
@@ -87,7 +102,8 @@ namespace InventifyBackend.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
-        public async Task<ActionResult> Update(CategoryUpdateResource categoryResource, CancellationToken cancellationToken)
+        public async Task<ActionResult> Update(CategoryUpdateResource? categoryResource,
+            CancellationToken cancellationToken)
         {
             ResponseDto<CategoryDto> response = await _categoryService.Update(categoryResource, cancellationToken);
 

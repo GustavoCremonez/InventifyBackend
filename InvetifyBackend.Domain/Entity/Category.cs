@@ -21,7 +21,7 @@ namespace InventifyBackend.Domain.Entity
 
         public string Description { get; private set; }
         
-        public ProductCategory ProductCategories { get; private set; } 
+        public List<ProductCategory>? ProductCategories { get; private set; } 
         
 
         public void UpdateCategory(string name, string description)

@@ -15,16 +15,15 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(u => u.Price).HasPrecision(18, 2).IsRequired();
         builder.Property(u => u.Quantity).HasPrecision(18, 2).IsRequired();
 
-        builder.Property(u => u.ProductCategories)
-               .HasConversion(
-                   v => v.ToString(),
-                   v => (ProductCategory)Enum.Parse(typeof(ProductCategory), v))
-               .IsRequired();
-        
         builder.Property(u => u.UserId).IsRequired();
+        
         builder.HasOne(u => u.User)
             .WithMany()
             .HasForeignKey(u => u.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(p => p.ProductCategories)
+            .WithOne(pc => pc.Product)
+            .HasForeignKey(pc => pc.ProductId);
     }
 }

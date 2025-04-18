@@ -1,14 +1,15 @@
+using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.Product;
 
 namespace InventifyBackend.Application.Contracts;
 
 public interface IProductService
 {
-    Task<ProductDto> GetProductByIdAsync(Guid id);
-    Task<IEnumerable<ProductDto>> GetAllProductsAsync();
-    Task AddProductAsync(ProductCreateResource product);
-    Task UpdateProductAsync(ProductUpdateResource product);
-    Task DeleteProductAsync(Guid id);
-    Task<IEnumerable<ProductDto>> GetProductsByCategoryAsync(string category);
-    Task<IEnumerable<ProductDto>> SearchProductsAsync(string searchTerm);
+    Task<ResponseDto<ProductDto>> GetProductByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<ResponseDto<IEnumerable<ProductDto>>> GetAllProductsAsync(CancellationToken cancellationToken);
+    Task AddProductAsync(ProductCreateResource product, CancellationToken cancellationToken);
+    Task UpdateProductAsync(ProductUpdateResource product, CancellationToken cancellationToken);
+    Task DeleteProductAsync(Guid id, CancellationToken cancellationToken);
+    Task<ResponseDto<IEnumerable<ProductDto>>> GetProductsByCategoryAsync(string category, CancellationToken cancellationToken);
+    Task<ResponseDto<IEnumerable<ProductDto>>> SearchProductsAsync(string searchTerm, CancellationToken cancellationToken);
 }
