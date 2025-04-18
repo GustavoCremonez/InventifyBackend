@@ -362,3 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /InvetifyBackend.Api/appsettings.Development.json
+.idea/.idea.InventifyBackend/.idea/dataSources.local.xml
+.idea/.idea.InventifyBackend/.idea/indexLayout.xml
+.idea/.idea.InventifyBackend/.idea/projectSettingsUpdater.xml
+.idea/.idea.InventifyBackend/.idea/workspace.xml
+.idea/.idea.InventifyBackend/.idea/shelf/chore_project___generate_new_migration_to_link_entities_to_user_init_crud_product.xml
+.idea/.idea.InventifyBackend/.idea/shelf/chore(project)__generate_new_migration_to_link_entities_to_user_init_crud_product/shelved.patch
