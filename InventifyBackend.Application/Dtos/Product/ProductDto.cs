@@ -1,4 +1,3 @@
-using InventifyBackend.Application.Dtos.Categories;
 using InventifyBackend.Application.Dtos.User;
 
 namespace InventifyBackend.Application.Dtos.Product;
@@ -15,7 +14,7 @@ public record ProductDto
 
     public decimal Quantity { get; set; }
 
-    public CategoryDto Categories { get;  set; }
+    public List<ProductCategoryDto> ProductCategories { get;  set; }
     
     public DateTime? CreatedAt { get; set; }
     

@@ -4,6 +4,7 @@ using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.Product;
 using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Domain.Entity;
+using InventifyBackend.Domain.Validation;
 
 namespace InventifyBackend.Application.Services;
 
@@ -78,11 +79,18 @@ public class ProductService : IProductService
         await _generalRepository.SaveAsync();
     }
 
-    public Task UpdateProductAsync(ProductUpdateResource product, CancellationToken cancellationToken)
+    public async Task UpdateProductAsync(ProductUpdateResource product, CancellationToken cancellationToken)
     {
-        var mappedProduct = _mapper.Map<Product>(product);
-        _productRepository.UpdateAsync(mappedProduct, cancellationToken);
-        return _generalRepository.SaveAsync();
+        var productEntity = await _productRepository.GetByIdAsync(product.Id, cancellationToken);
+
+        if (productEntity == null)
+        {
+            throw new DomainExceptionValidation("There is no product with this id.");
+        }
+
+        productEntity.UpdateProduct(product.Name, product.Price, product.Quantity);
+
+        await _productRepository.UpdateAsync(productEntity, cancellationToken);
     }
 
     public async Task DeleteProductAsync(Guid id, CancellationToken cancellationToken)

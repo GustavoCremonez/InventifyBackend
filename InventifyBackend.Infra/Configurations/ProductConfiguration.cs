@@ -14,6 +14,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(u => u.Name).HasMaxLength(255).IsRequired();
         builder.Property(u => u.Price).HasPrecision(18, 2).IsRequired();
         builder.Property(u => u.Quantity).HasPrecision(18, 2).IsRequired();
+        builder.Property(u => u.CreatedAt).HasDefaultValueSql("getdate()").IsRequired();
 
         builder.Property(u => u.UserId).IsRequired();
         
