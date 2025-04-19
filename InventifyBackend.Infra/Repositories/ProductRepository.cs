@@ -14,13 +14,15 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         if (id == Guid.Empty)
             throw new ArgumentException("Invalid ID", nameof(id));
 
-        return await _context.Products.FindAsync(new object?[] { id }, cancellationToken: cancellationToken) ??
+        return await _context.Products
+            .Include(x => x.ProductCategories)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken) ??
                throw new InvalidOperationException();
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.Products.AsNoTracking().ToListAsync(cancellationToken);
+        return await _context.Products.Include(x => x.ProductCategories).AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
@@ -37,6 +39,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
             return [];
 
         return await _context.Products
+            .Include(x => x.ProductCategories)
             .AsNoTracking()
             .Where(p => p.Name.Contains(searchTerm))
             .ToListAsync(cancellationToken);

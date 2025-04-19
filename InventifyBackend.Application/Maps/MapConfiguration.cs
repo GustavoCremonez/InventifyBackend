@@ -33,6 +33,8 @@ namespace InventifyBackend.Application.Maps
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<ProductCreateResource, Product>();
             CreateMap<ProductCreateResource, ProductDto>();
+            CreateMap<ProductUpdateResource, Product>();
+            CreateMap<ProductCategory, ProductCategoryDto>().ReverseMap();
             #endregion Product mapping
         }
     }
