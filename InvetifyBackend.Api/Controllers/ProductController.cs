@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventifyBackend.Api.Controllers;
 
 [Route("api/[controller]")]
-//[Authorize]
+[Authorize]
 [ApiController]
 public class ProductController : ControllerBase
 {
