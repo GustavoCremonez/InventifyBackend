@@ -4,6 +4,7 @@ using InventifyBackend.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventifyBackend.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250418202222_FixCategoryProductLink")]
+    partial class FixCategoryProductLink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +48,7 @@ namespace InventifyBackend.Infra.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ProductCategories")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -53,88 +57,6 @@ namespace InventifyBackend.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("acbe9826-4301-471c-8c1e-72a6c1df19df"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1495),
-                            Description = "Produtos eletrônicos como computadores, smartphones, tablets, etc.",
-                            Name = "Eletrônicos",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1509)
-                        },
-                        new
-                        {
-                            Id = new Guid("4d8c72bc-826b-4da3-8ddf-eddbd12c3d65"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1516),
-                            Description = "Móveis para escritório, casa e jardim",
-                            Name = "Móveis",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1516)
-                        },
-                        new
-                        {
-                            Id = new Guid("9027bbe9-f797-498d-991b-b7d30b2f37d2"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1518),
-                            Description = "Roupas, calçados e acessórios",
-                            Name = "Vestuário",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1519)
-                        },
-                        new
-                        {
-                            Id = new Guid("21caeafa-4ce2-437d-854f-5621d483fae2"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1530),
-                            Description = "Produtos alimentícios não perecíveis",
-                            Name = "Alimentos",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1530)
-                        },
-                        new
-                        {
-                            Id = new Guid("3261ae71-fdd9-4a9c-b32a-c209434dc1a1"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1533),
-                            Description = "Bebidas alcoólicas e não alcoólicas",
-                            Name = "Bebidas",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1533)
-                        },
-                        new
-                        {
-                            Id = new Guid("d8274e02-1580-4a28-b72d-2d64496b9137"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1535),
-                            Description = "Ferramentas manuais e elétricas",
-                            Name = "Ferramentas",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1536)
-                        },
-                        new
-                        {
-                            Id = new Guid("dcefb848-6673-4037-afb8-241ea7e382ff"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1538),
-                            Description = "Suprimentos e equipamentos de escritório",
-                            Name = "Material de Escritório",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1538)
-                        },
-                        new
-                        {
-                            Id = new Guid("297981b4-a69b-4a83-b7d0-3e0e4e0dc103"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1540),
-                            Description = "Produtos para limpeza doméstica e industrial",
-                            Name = "Produtos de Limpeza",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1540)
-                        },
-                        new
-                        {
-                            Id = new Guid("c3c9b648-796a-4217-bb79-2f61b313efe4"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1542),
-                            Description = "EPIs e equipamentos de segurança",
-                            Name = "Equipamentos de Segurança",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1543)
-                        },
-                        new
-                        {
-                            Id = new Guid("e485adf9-52bd-4940-8161-dd85db69da0d"),
-                            CreatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1545),
-                            Description = "Peças e acessórios para veículos",
-                            Name = "Peças Automotivas",
-                            UpdatedAt = new DateTime(2025, 4, 18, 18, 18, 53, 231, DateTimeKind.Local).AddTicks(1545)
-                        });
                 });
 
             modelBuilder.Entity("InventifyBackend.Domain.Entity.Customer", b =>
@@ -219,6 +141,10 @@ namespace InventifyBackend.Infra.Migrations
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductCategories")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Quantity")
                         .HasPrecision(18, 2)
@@ -331,7 +257,7 @@ namespace InventifyBackend.Infra.Migrations
                         .IsRequired();
 
                     b.HasOne("InventifyBackend.Domain.Entity.Product", "Product")
-                        .WithMany("ProductCategories")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -339,11 +265,6 @@ namespace InventifyBackend.Infra.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("InventifyBackend.Domain.Entity.Product", b =>
-                {
-                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

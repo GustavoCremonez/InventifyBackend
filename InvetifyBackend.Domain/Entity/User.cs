@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace InventifyBackend.Domain.Entity
 {
-    public sealed class User
+    public sealed class User : StandardEntity
     {
         public User(Guid id, string name, string email, string passwordSalt, string passwordHash, DateTime? createdAt, DateTime? updatedAt)
         {
@@ -21,9 +21,6 @@ namespace InventifyBackend.Domain.Entity
 
         }
 
-
-        public Guid Id { get; private set; }
-
         public string Name { get; private set; }
 
         public string Email { get; private set; }
@@ -31,10 +28,6 @@ namespace InventifyBackend.Domain.Entity
         public string PasswordSalt { get; private set; }
 
         public string PasswordHash { get; private set; }
-
-        public DateTime? CreatedAt { get; private set; }
-
-        public DateTime? UpdatedAt { get; private set; }
 
         public void UpdateUser(string name, string email, string passwordHash, string passwordSalt)
         {
