@@ -17,7 +17,6 @@ namespace InventifyBackend.Infra
                 IConfiguration configuration
             )
         {
-
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("InventifyConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))

@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using InventifyBackend.Application.Configuration;
 using InventifyBackend.Application.Contracts;
 using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.Categories;
-using InventifyBackend.Application.Dtos.Login;
-using InventifyBackend.Application.Dtos.User;
-using InventifyBackend.Application.Helper;
 using InventifyBackend.Domain.Contracts;
 using InventifyBackend.Domain.Entity;
 using InventifyBackend.Domain.Validation;
