@@ -71,6 +71,7 @@ if (app.Environment.IsDevelopment())
         .AllowAnyHeader()
         .AllowAnyMethod()
     );
+    app.ConfigureExceptionHandler();
 }
 
 app.UseHttpsRedirection();
