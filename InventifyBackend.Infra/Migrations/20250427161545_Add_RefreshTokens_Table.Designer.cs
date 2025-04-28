@@ -4,6 +4,7 @@ using InventifyBackend.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventifyBackend.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250427161545_Add_RefreshTokens_Table")]
+    partial class Add_RefreshTokens_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,83 +60,83 @@ namespace InventifyBackend.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7cb404a4-003a-43fb-834a-436a1374dc1a"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5781),
+                            Id = new Guid("134193b1-1866-46d5-a286-3b25dfac0282"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7521),
                             Description = "Produtos eletrônicos como computadores, smartphones, tablets, etc.",
                             Name = "Eletrônicos",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5792)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7530)
                         },
                         new
                         {
-                            Id = new Guid("edf14e1d-ce7d-43ef-8dd6-6ae99840c664"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5799),
+                            Id = new Guid("5fa39083-d4b2-4d36-ae92-c52a44638503"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7536),
                             Description = "Móveis para escritório, casa e jardim",
                             Name = "Móveis",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5800)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7537)
                         },
                         new
                         {
-                            Id = new Guid("5fd67f98-982a-48a3-8ed1-d8e42720a80b"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5801),
+                            Id = new Guid("2b619531-7eb6-45a4-99af-c219a1c73c85"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7539),
                             Description = "Roupas, calçados e acessórios",
                             Name = "Vestuário",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5802)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7539)
                         },
                         new
                         {
-                            Id = new Guid("4df46148-3847-4f2f-966b-7c483ce84047"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5804),
+                            Id = new Guid("f6891beb-8e5b-4fa5-9bba-df51e976b016"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7541),
                             Description = "Produtos alimentícios não perecíveis",
                             Name = "Alimentos",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5804)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7542)
                         },
                         new
                         {
-                            Id = new Guid("91c48422-e5b3-4611-a4cd-9849977e4044"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5806),
+                            Id = new Guid("e9748f94-9f60-4cf5-8834-f4df234af3b4"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7543),
                             Description = "Bebidas alcoólicas e não alcoólicas",
                             Name = "Bebidas",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5807)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7544)
                         },
                         new
                         {
-                            Id = new Guid("58bb4420-666a-4002-9154-33cf3762ef28"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5824),
+                            Id = new Guid("fae86d7c-eb52-46ad-8a1c-f21f6b36aeaa"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7546),
                             Description = "Ferramentas manuais e elétricas",
                             Name = "Ferramentas",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5824)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7546)
                         },
                         new
                         {
-                            Id = new Guid("41397ae6-07d9-4ac6-b39a-ddd586ef0a9d"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5826),
+                            Id = new Guid("b4e1d5d6-1fc2-4016-b7fc-7c1631329a1c"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7548),
                             Description = "Suprimentos e equipamentos de escritório",
                             Name = "Material de Escritório",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5827)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7549)
                         },
                         new
                         {
-                            Id = new Guid("ddbc68e7-b0ff-49ab-968f-8233e6417f92"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5829),
+                            Id = new Guid("2092fcaf-e61e-4723-b5b1-a243af816466"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7562),
                             Description = "Produtos para limpeza doméstica e industrial",
                             Name = "Produtos de Limpeza",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5829)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7563)
                         },
                         new
                         {
-                            Id = new Guid("975eca34-19b4-4c70-a1a9-5d4bcafe8848"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5831),
+                            Id = new Guid("ae738327-f557-4309-b2ef-95a8901a2b62"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7565),
                             Description = "EPIs e equipamentos de segurança",
                             Name = "Equipamentos de Segurança",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5832)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7565)
                         },
                         new
                         {
-                            Id = new Guid("9b4e4558-132e-459c-839b-38484aeee76d"),
-                            CreatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5833),
+                            Id = new Guid("7180a654-3075-46cd-ac73-956499d1f7f5"),
+                            CreatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7567),
                             Description = "Peças e acessórios para veículos",
                             Name = "Peças Automotivas",
-                            UpdatedAt = new DateTime(2025, 4, 28, 14, 10, 35, 99, DateTimeKind.Local).AddTicks(5834)
+                            UpdatedAt = new DateTime(2025, 4, 27, 13, 15, 44, 376, DateTimeKind.Local).AddTicks(7568)
                         });
                 });
 
@@ -273,33 +276,31 @@ namespace InventifyBackend.Infra.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedByIp")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ReplacedByToken")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Revoked")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RevokedByIp")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Expires");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 

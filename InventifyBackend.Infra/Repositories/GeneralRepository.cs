@@ -12,6 +12,12 @@ namespace InventifyBackend.Infra.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
+        public async Task<T> GetById<T>(string id, CancellationToken cancellationToken) where T : class
+        {
+            var data = await _applicationDbContext.Set<T>().FindAsync(id, cancellationToken);
+            return data;
+        }
+
         public async Task Add<T>(T entity, CancellationToken cancellationToken) where T : class
         {
             await _applicationDbContext.AddAsync(entity, cancellationToken);

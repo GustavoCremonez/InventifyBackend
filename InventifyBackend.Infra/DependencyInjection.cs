@@ -54,6 +54,13 @@ namespace InventifyBackend.Infra
 
             #endregion
             
+            
+            #region Token Injections
+
+            services.AddScoped<ITokenRepository, TokenRepository>();
+
+            #endregion
+            
             return services;
         }
     }
