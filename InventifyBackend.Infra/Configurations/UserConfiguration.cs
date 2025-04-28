@@ -19,6 +19,11 @@ namespace InventifyBackend.Infra.Configurations
             builder.Property(u => u.UpdatedAt);
 
             builder.HasIndex(u => u.Email);
+            
+            builder.HasMany(u => u.RefreshTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

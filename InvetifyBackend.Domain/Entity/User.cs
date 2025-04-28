@@ -28,6 +28,13 @@ namespace InventifyBackend.Domain.Entity
         public string PasswordSalt { get; private set; }
 
         public string PasswordHash { get; private set; }
+        
+        public List<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
+
+        public void AddRefreshToken(RefreshToken refreshToken)
+        {
+            RefreshTokens.Add(refreshToken);
+        }
 
         public void UpdateUser(string name, string email, string passwordHash, string passwordSalt)
         {

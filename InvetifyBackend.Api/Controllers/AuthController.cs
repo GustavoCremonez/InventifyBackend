@@ -2,6 +2,7 @@
 using InventifyBackend.Application.Dtos;
 using InventifyBackend.Application.Dtos.Login;
 using InventifyBackend.Application.Dtos.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventifyBackend.Api.Controllers
@@ -17,33 +18,51 @@ namespace InventifyBackend.Api.Controllers
             _authService = authService;
         }
 
-        ///<summary>Authenticate user</summary>
-        ///<param name="resource">Resource to process login</param>
-        ///<returns>Return user created</returns>
-        ///<response code="200">Return when is authorized user</response>
-        ///<response code="400">Wrong informations</response>
-        ///<response code="500">Internal error on server</response>
-        [HttpPost]
-        [ProducesResponseType(typeof(ResponseDto<UserDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Produces("application/json")]
-        public async Task<ActionResult> Login([FromBody] LoginResource resource, CancellationToken cancellationToken)
+        /// <summary>
+        /// Authenticates a user and generates a login token.
+        /// </summary>
+        /// <param name="loginResource">The login credentials provided by the user.</param>
+        /// <returns>
+        /// An IActionResult containing the login result data if successful.
+        /// The result typically includes an access token and possibly a refresh token.
+        /// </returns>
+        /// <remarks>
+        /// This method captures the client's IP address for security logging purposes.
+        /// </remarks>
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginResource loginResource)
         {
-            ResponseDto<object> response = await _authService.LoginAsync(resource, cancellationToken);
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+            var result = await _authService.LoginAsync(loginResource, ipAddress, HttpContext.RequestAborted);
 
-            if (response.StatusCode == StatusCodes.Status200OK)
-            {
-                return Ok(response);
-            }
-            else if (response.StatusCode == StatusCodes.Status400BadRequest)
-            {
-                return BadRequest(response);
-            }
-            else
-            {
-                return StatusCode(response.StatusCode, response);
-            }
+            return Ok(result.Data);
         }
+
+        /// <summary>
+        /// Refreshes an authentication token using a provided refresh token.
+        /// </summary>
+        /// <param name="refreshTokenResource">The resource containing the refresh token to be used for generating a new access token.</param>
+        /// <returns>
+        /// An IActionResult containing the refresh result data if successful.
+        /// The result typically includes a new access token and possibly a new refresh token.
+        /// </returns>
+        /// <remarks>
+        /// This method captures the client's IP address for security logging purposes.
+        /// </remarks>
+        [HttpPost("refresh-token")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenResource refreshTokenResource, CancellationToken cancellationToken)
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+            var result = await _authService.RefreshTokenAsync(refreshTokenResource.RefreshToken, ipAddress, cancellationToken);
+
+            return Ok(result.Data);
+        }
+    }
+
+    public class RefreshTokenResource
+    {
+        public string RefreshToken { get; set; }
     }
 }

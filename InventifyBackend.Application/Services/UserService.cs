@@ -19,7 +19,8 @@ namespace InventifyBackend.Application.Services
         private readonly PasswordSettings _passwordSettings;
         private readonly int _iteration = 3;
 
-        public UserService(IGeneralRepository generalRepository, IUserRepository userRepository, IMapper mapper, IOptions<PasswordSettings> passwordSettings)
+        public UserService(IGeneralRepository generalRepository, IUserRepository userRepository, IMapper mapper,
+            IOptions<PasswordSettings> passwordSettings)
         {
             _generalRepository = generalRepository;
             _userRepository = userRepository;
@@ -29,136 +30,108 @@ namespace InventifyBackend.Application.Services
 
         public async Task<ResponseDto<Guid>> Add(UserCreateResource userResource, CancellationToken cancellationToken)
         {
-            try
+            User user = _mapper.Map<User>(userResource);
+
+            if (await _userRepository.Get(user.Email, cancellationToken) != null)
             {
-                User user = _mapper.Map<User>(userResource);
-
-                if (await _userRepository.Get(user.Email, cancellationToken) != null)
-                {
-                    return ResponseDto<Guid>.Failure(400, "There is already a user with this email.");
-                }
-
-                string passwordSalt = PasswordHelper.GenerateSalt();
-                string passwordHash = PasswordHelper.ComputeHash(userResource.password, passwordSalt, _passwordSettings.Pepper, _iteration);
-
-                user.SetPasswordInfos(passwordHash, passwordSalt);
-                user.ValidateUser();
-
-                await _generalRepository.Add(user, cancellationToken);
-
-                return ResponseDto<Guid>.Success(user.Id);
+                return ResponseDto<Guid>.Failure(400, "There is already a user with this email.");
             }
-            catch (DomainExceptionValidation e)
-            {
-                return ResponseDto<Guid>.Failure(500, "Error when registering user: " + e.Message);
-            }
-            catch
-            {
-                return ResponseDto<Guid>.Failure(500, "Error when registering user.");
-            }
+
+            string passwordSalt = PasswordHelper.GenerateSalt();
+            string passwordHash = PasswordHelper.ComputeHash(userResource.password, passwordSalt,
+                _passwordSettings.Pepper, _iteration);
+
+            user.SetPasswordInfos(passwordHash, passwordSalt);
+            user.ValidateUser();
+
+            await _generalRepository.Add(user, cancellationToken);
+
+            return ResponseDto<Guid>.Success(user.Id);
         }
 
         public async Task<ResponseDto<UserDto>> Get(string email, CancellationToken cancellationToken)
         {
-            try
+            User? user = await _userRepository.Get(email, cancellationToken);
+
+            if (user == null)
             {
-                User? user = await _userRepository.Get(email, cancellationToken);
-
-                if (user == null)
-                {
-                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
-                }
-
-                UserDto userDto = _mapper.Map<UserDto>(user);
-
-                return ResponseDto<UserDto>.Success(userDto);
+                return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
             }
-            catch
+
+            UserDto userDto = _mapper.Map<UserDto>(user);
+
+            return ResponseDto<UserDto>.Success(userDto);
+        }
+
+        public async Task<ResponseDto<UserDto>> Get(Guid id, CancellationToken cancellationToken)
+        {
+            User? user = await _userRepository.Get(id, cancellationToken);
+            if (user == null)
             {
-                return ResponseDto<UserDto>.Failure(500, "Error when searching for user.");
+                return ResponseDto<UserDto>.Failure(404, "User not found.");
             }
+
+            UserDto userDto = _mapper.Map<UserDto>(user);
+            return ResponseDto<UserDto>.Success(userDto);
         }
 
         public async Task<ResponseDto<UserDto>> GetAbstracted(string email, CancellationToken cancellationToken)
         {
-            try
+            User? user = await _userRepository.Get(email, cancellationToken);
+
+            if (user == null)
             {
-                User? user = await _userRepository.Get(email, cancellationToken);
-
-                if (user == null)
-                {
-                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
-                }
-
-                UserDto userDto = _mapper.Map<UserDto>(user);
-
-                userDto.PasswordHash = string.Empty;
-                userDto.PasswordSalt = string.Empty;
-
-                return ResponseDto<UserDto>.Success(userDto);
+                return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
             }
-            catch
-            {
-                return ResponseDto<UserDto>.Failure(500, "Error when searching for user.");
-            }
+
+            UserDto userDto = _mapper.Map<UserDto>(user);
+
+            userDto.PasswordHash = string.Empty;
+            userDto.PasswordSalt = string.Empty;
+
+            return ResponseDto<UserDto>.Success(userDto);
         }
 
-        public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource, CancellationToken cancellationToken)
+        public async Task<ResponseDto<UserDto>> Update(UserUpdateResource userResource,
+            CancellationToken cancellationToken)
         {
-            try
+            if (userResource == null)
             {
-                if (userResource == null)
-                {
-                    return ResponseDto<UserDto>.Failure(400, "The user information must contain a value.");
-                }
-
-                User? user = await _userRepository.Get(userResource.id, cancellationToken);
-                
-                if (user == null)
-                {
-                    return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
-                }
-
-                string passwordSalt = PasswordHelper.GenerateSalt();
-                string passwordHash = PasswordHelper.ComputeHash(userResource.password, passwordSalt, _passwordSettings.Pepper, _iteration);
-
-                user.UpdateUser(userResource.name, userResource.email, passwordHash, passwordSalt);
-
-                await _generalRepository.SaveAsync();
-
-                UserDto userDto = _mapper.Map<UserDto>(user);
-
-                return ResponseDto<UserDto>.Success(userDto);
+                return ResponseDto<UserDto>.Failure(400, "The user information must contain a value.");
             }
-            catch (DomainExceptionValidation e)
+
+            User? user = await _userRepository.Get(userResource.id, cancellationToken);
+
+            if (user == null)
             {
-                return ResponseDto<UserDto>.Failure(500, "Error when updating user: " + e.Message);
+                return ResponseDto<UserDto>.Failure(400, "There is no user with this email.");
             }
-            catch
-            {
-                return ResponseDto<UserDto>.Failure(500, "Error when updating user.");
-            }
+
+            string passwordSalt = PasswordHelper.GenerateSalt();
+            string passwordHash = PasswordHelper.ComputeHash(userResource.password, passwordSalt,
+                _passwordSettings.Pepper, _iteration);
+
+            user.UpdateUser(userResource.name, userResource.email, passwordHash, passwordSalt);
+
+            await _generalRepository.SaveAsync();
+
+            UserDto userDto = _mapper.Map<UserDto>(user);
+
+            return ResponseDto<UserDto>.Success(userDto);
         }
 
         public async Task<ResponseDto<Guid>> Delete(string email, CancellationToken cancellationToken)
         {
-            try
+            User? user = await _userRepository.Get(email, cancellationToken);
+
+            if (user == null)
             {
-                User? user = await _userRepository.Get(email, cancellationToken);
-
-                if (user == null)
-                {
-                    return ResponseDto<Guid>.Failure(400, "There is no user with this email.");
-                }
-
-                await _generalRepository.Delete(user);
-
-                return ResponseDto<Guid>.Success(user.Id);
+                return ResponseDto<Guid>.Failure(400, "There is no user with this email.");
             }
-            catch
-            {
-                return ResponseDto<Guid>.Failure(500, "Error when deleting user.");
-            }
+
+            await _generalRepository.Delete(user);
+
+            return ResponseDto<Guid>.Success(user.Id);
         }
     }
 }

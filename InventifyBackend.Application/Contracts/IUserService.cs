@@ -8,6 +8,8 @@ namespace InventifyBackend.Application.Contracts
         Task<ResponseDto<Guid>> Add(UserCreateResource userDto, CancellationToken cancellationToken);
 
         Task<ResponseDto<UserDto>> Get(string email, CancellationToken cancellationToken);
+        
+        Task<ResponseDto<UserDto>> Get(Guid id, CancellationToken cancellationToken);
 
         Task<ResponseDto<UserDto>> GetAbstracted(string email, CancellationToken cancellationToken);
 
