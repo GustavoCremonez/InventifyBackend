@@ -1,5 +1,6 @@
 using InventifyBackend.Application.Configuration;
 using InventifyBackend.Infra;
+using InventifyBackend.Infra.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -59,6 +60,11 @@ builder.Services.Configure<PasswordSettings>(
             builder.Configuration.GetSection("PasswordSettings"));
 builder.Services.Configure<JwtSettings>(
             builder.Configuration.GetSection("Jwt"));
+
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
+{
+    LogLevel = LogLevel.Information
+}));
 
 WebApplication app = builder.Build();
 
