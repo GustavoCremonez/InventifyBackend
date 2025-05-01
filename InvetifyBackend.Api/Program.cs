@@ -61,10 +61,12 @@ builder.Services.Configure<PasswordSettings>(
 builder.Services.Configure<JwtSettings>(
             builder.Configuration.GetSection("Jwt"));
 
-builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfiguration
+var customLoggerProviderConfiguration = new CustomLoggerProviderConfiguration
 {
     LogLevel = LogLevel.Information
-}));
+};
+
+builder.Logging.AddProvider(new CustomLoggerProvider(customLoggerProviderConfiguration));
 
 WebApplication app = builder.Build();
 
@@ -77,8 +79,9 @@ if (app.Environment.IsDevelopment())
         .AllowAnyHeader()
         .AllowAnyMethod()
     );
-    app.ConfigureExceptionHandler();
 }
+
+app.ConfigureExceptionHandler(app.Environment.IsDevelopment(), new CustomerLogger("logger", customLoggerProviderConfiguration));
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
